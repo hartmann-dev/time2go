@@ -9,11 +9,24 @@ class Home extends React.Component {
 
   constructor(props) {
     super(props);
-    const dateTime = new Date(props.match.params.datetime);
-    if (dateTime instanceof Date && !isNaN(dateTime)) {
+    const dateTime = props.match.params.datetime;
+    if (this.isDateTime(dateTime)) {
       this.state = { dateTime };
     }
   }
+
+  getTimer = e => {
+    e.preventDefault();
+    const dateTime = e.target.elements.date.value;
+    if (this.isDateTime(dateTime)) {
+      this.setState({ dateTime });
+    }
+  };
+
+  isDateTime = time2go => {
+    const dateTime = new Date(time2go);
+    return dateTime instanceof Date && !isNaN(dateTime);
+  };
 
   render() {
     return (
@@ -30,7 +43,7 @@ class Home extends React.Component {
                   </h3>
                 </div>
                 <div className="col-7 form-container">
-                  <Form />
+                  <Form getTimer={this.getTimer} />
                   <Timer dateTime={this.state.dateTime} />
                 </div>
               </div>
